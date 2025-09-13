@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +22,10 @@ Route::get('/kelas', function () {
 
 Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
 Route::post('/mahasiswa', [MahasiswaController::class, 'store']);
+
+Route::get('/matakuliah', [MatakuliahController::class, 'index']);
+Route::post('/matakuliah', [MatakuliahController::class, 'store']);
+
+Route::get('/ruangan', [RuanganController::class, 'index']);
+Route::post('/ruangan', [RuanganController::class, 'store']);
+
