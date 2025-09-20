@@ -1,31 +1,20 @@
 <?php
-use App\Http\Controllers\MatakuliahController;
-use App\Http\Controllers\RuanganController;
-use App\Http\Controllers\MahasiswaController;
+
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', function () {
-    return "Hello World dari Laravel!";
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/nama', function () {
-    return "Hello Guys Nama Saya Sartikaaa!";
-});
-
-Route::get('/kelas', function () {
-    return "Sartika kelas ASE-10";
-});
-
-Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
-Route::post('/mahasiswa', [MahasiswaController::class, 'store']);
-
-Route::get('/matakuliah', [MatakuliahController::class, 'index']);
-Route::post('/matakuliah', [MatakuliahController::class, 'store']);
-
-Route::get('/ruangan', [RuanganController::class, 'index']);
-Route::post('/ruangan', [RuanganController::class, 'store']);
-
+require __DIR__.'/auth.php';
