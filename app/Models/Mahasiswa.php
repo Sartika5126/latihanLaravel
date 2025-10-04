@@ -6,10 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mahasiswa extends Model
 {
-    use HasFactory;
-    // Nama tabel (opsional, dafult = "mahasiswa" -> jamak)
+    // pointing table
     protected $table = 'mahasiswa';
 
-    //Kolom yang bisa diisi mass-assignment
-    protected $fillable = ['nama', 'nim',];
+    // kolom yang bisa di set by user
+    protected $fillable = [
+        'nama',
+        'nim',
+        'kelas_id'
+
+    ];
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
 }
