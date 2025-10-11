@@ -17,26 +17,28 @@
                 {{-- SIDEBAR di kiri, tepat dibawah header --}}
                 <aside class="w-64 bg-white border-r shadow-sm min-h-screen">
                     <nav class="p-4 space-y-1">
-                        <a href="{{ route('dashboard') }}"
-                            class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
-                            Dashboard
-                        </a>
-                        <a href="{{ route('mahasiswa.index') }}"
-                            class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('mahasiswa.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            Mahasiswa
-                        </a>
-                        <a href="{{ route('ruangan.index') }}"
-                            class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('ruangan.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            Ruangan
-                        </a>
-                         <a href="{{ route('matakuliah.index') }}"
-                            class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('matakuliah.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            Matakuliah
-                        </a>
-                        <a href="{{ route('dosen.index') }}"
-                            class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('dosen.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            Dosen
-                        </a>
+                        @if (Auth::user() && Auth::user()->role === 'admin')
+                            <a href="{{ route('dashboard') }}"
+                                class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
+                                Dashboard
+                            </a>
+                            <a href="{{ route('mahasiswa.index') }}"
+                                class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('mahasiswa.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                                Mahasiswa
+                            </a>
+                            <a href="{{ route('ruangan.index') }}"
+                                class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('ruangan.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                                Ruangan
+                            </a>
+                            <a href="{{ route('matakuliah.index') }}"
+                                class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('matakuliah.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                                Matakuliah
+                            </a>
+                            <a href="{{ route('dosen.index') }}"
+                                class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('dosen.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                                Dosen
+                            </a>
+                        @endif
                     </nav>
                 </aside>
                 {{-- KONTEN UTAMA di kanan --}}
