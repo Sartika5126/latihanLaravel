@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EkycRegistration;
+use App\Models\MasterAlamat;
 use Illuminate\Support\Facades\Auth;
 
 class EkycController extends Controller
@@ -113,7 +114,69 @@ class EkycController extends Controller
 
         $data->save();
 
-        return redirect()->route('ekyc.step3')->with('success', 'Data pendidikan berhasil disimpan');
+        return redirect()->route('ekyc.step4')->with('success', 'Step 3 Tersimpan');
+    }
+    
+    public function showStep4()
+    
+    {
+        $data = \App\Models\EkycRegistration::where('user_id', auth()->id())->first();
+
+        // Ambil semua data alamat via model
+        $alamatList = MasterAlamat::all();
+
+        // Ambil provinsi untuk dropdown pertama
+        $data = EkycRegistration::where('user_id', auth()->id())->first();
+        $provinsiList = MasterAlamat::select('provinsi')->distinct()->pluck('provinsi');
+        $kotaList = [];
+        $kecamatanList = [];
+
+        if ($data && $data->provinsi) {
+            $kotaList = MasterAlamat::where('provinsi', $data->provinsi)
+                        ->select('kota')->distinct()->pluck('kota');
+        }
+
+        if ($data && $data->kota) {
+            $kecamatanList = MasterAlamat::where('kota', $data->kota)
+                        ->select('kecamatan')->distinct()->pluck('kecamatan');
+        }
+
+        return view('ekyc.step4', compact('data', 'alamatList', 'provinsiList', 'kotaList', 'kecamatanList'));
+       
+    }
+
+    public function storeStep4(Request $request)
+    {
+        $request->validate([
+            'alamatDomisili'   => 'nullable|string|max:255',
+            'provinsi'         => 'nullable|string|max:100',
+            'kota'             => 'nullable|string|max:100',
+            'kecamatan'        => 'nullable|string|max:100',
+            'kode_pos'         => 'nullable|string|max:10',
+            'nama_ibu_kandung' => 'nullable|string|max:100',
+            'referensi_sumber' => 'nullable|string|max:100',
+        ]);
+
+        // Ambil data EKYC milik user login
+        $data = \App\Models\EkycRegistration::where('user_id', auth()->id())->first();
+
+        if(!$data) {
+            return redirect()->route('ekyc.step4')->with('error', 'Data eKYC tidak ditemukan');
+        }
+
+        // Simpan Data alamat & informasi pendaftaran
+        $data->alamatDomisili   = $request->alamatDomisili;
+        $data->provinsi         = $request->provinsi;
+        $data->kota             = $request->kota;
+        $data->kecamatan        = $request->kecamatan;
+        $data->kode_pos         = $request->kode_pos;
+        $data->nama_ibu_kandung = $request->nama_ibu_kandung;
+        $data->referensi_sumber = $request->referensi_sumber;
+
+        $data->save();
+
+        return redirect()->route('ekyc.step4')->with('success', 'Data domisili & regerensi berhasil disimpan');
+
     }
 
 }
