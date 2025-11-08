@@ -37,11 +37,21 @@
                 @endif
             </div>
 
-            <div class="flex justify-between items-center mt-4">
-                <a href="{{ route('ekyc.step1') }}" class="text-sm text-gray-500 hover:text-gray-700">← Kembali ke Step 1</a>
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                    Simpan & Lanjut ke Step 3 →
-                </button>
+             <div class="flex justify-between items-center mt-6"> 
+                {{-- Link "Kembali" di sisi kiri --}}
+                <a href="{{ route('ekyc.step1') }}" class="text-sm text-gray-500 hover:text-gray-700">
+                    ← Kembali ke Step 1
+                </a>        <div class="flex justify-end">
+                        @if ($data && $data->status === 'submitted')
+                            <a href="{{ route('ekyc.step3') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                                Lanjut ke Step 3
+                            </a>
+                        @else
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Simpan & Lanjut Step 3
+                            </button>
+                        @endif
+                    </div>
             </div>
         </form>
     </div>

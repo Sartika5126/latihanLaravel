@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::get('step1', [EkycController::class, 'step1'])->name('ekyc.step1');
     Route::post('step1', [EkycController::class, 'storeStep1'])->name('ekyc.storeStep1');
     
+    Route::get('step2', function () {
+        return "Step 2: Upload Dokumen (belum dibuat)";
+    })->name('ekyc.step2');
     Route::get('/ekyc/step2', [EkycController::class, 'step2'])->name('ekyc.step2');
     Route::post('/ekyc/step2', [EkycController::class, 'storeStep2'])->name('ekyc.step2.store');
 
@@ -55,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ekyc/4', [EkycController::class, 'showStep4'])->name('ekyc.step4');
     Route::post('/ekyc/step4', [EkycController::class, 'storeStep4'])->name('ekyc.step4.store');
 
+    Route::get('/ekyc/step5', [EkycController::class, 'step5'])->name('ekyc.step5');
 
 });
 

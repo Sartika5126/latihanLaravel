@@ -87,10 +87,17 @@
                     ← Kembali ke Step 3
                 </a>
                 
-                {{-- Tombol "Simpan & Lanjut" di sisi kanan --}}
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                    Simpan & Lanjut
-                </button>
+                <div class="flex justify-end">
+                @if ($data && $data->status === 'submitted')
+                    <a href="{{ route('ekyc.step5') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                        Selesai
+                    </a>
+                @else
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Simpan & Lanjut Step 5
+                    </button>
+                @endif
+            </div>
             </div>
         </form>
     </div>

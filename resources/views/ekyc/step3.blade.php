@@ -1,9 +1,6 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Step 3 | Data Pendidikan & Upload Dokumen
-        </h2>
-    </x-slot>
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow mt-8">
+        <h2 class="text-xl font-semibold mb-4">E-KYC - Langkah 3: Pendidikan</h2>
 
     <div class="max-w-xl mx-auto mt-8 bg-white p-6 rounded-lg shadow">
         @if (session('success'))
@@ -58,12 +55,24 @@
                 @endif
             </div>
 
-            <div class="flex justify-end">
-                <button type="submit"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                    Simpan & Lanjut
-                </button>
+            <div class="flex justify-between items-center mt-6"> 
+                {{-- Link "Kembali" di sisi kiri --}}
+                <a href="{{ route('ekyc.step2') }}" class="text-sm text-gray-500 hover:text-gray-700">
+                    ← Kembali ke Step 2
+                </a>
+                <div class="flex justify-end">
+                    @if ($data && $data->status === 'submitted')
+                        <a href="{{ route('ekyc.step4') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                            Lanjut ke Step 4
+                        </a>
+                    @else
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            Simpan & Lanjut Step 4
+                        </button>
+                    @endif
+                </div>
             </div>
         </form>
+</div>
     </div>
 </x-app-layout>

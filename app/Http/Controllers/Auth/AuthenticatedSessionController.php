@@ -25,7 +25,6 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
         $user = Auth::user();
@@ -35,19 +34,23 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('dashboard');
         }
 
-        // Default untuk user biasa -> kehalaman step 1
-        return redirect()->route('ekyc.step1');
-    }
+        // Ambil data eKYC  milik user login
+        $ekyc = \App\Models\EkycRegistration::where('user_id', auth()->id())->first();
 
-    /**
-     * Destroy an authenticated session.
-     */
+        if ($ekyc && $ekyc->status === 'submitted') {
+            // jika ekyc sudah selesai
+            return redirect()->route('ekyc.step5');
+        } else {
+            // jika belum ada atau belum selesai
+            return redirect()->route('ekyc.step1');
+        }
+    }   
+
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
