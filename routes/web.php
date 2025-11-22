@@ -8,6 +8,16 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\Auth\StudentRegisterController;
 use App\Http\Controllers\EkycController;
 use App\Http\Controllers\Admin\EkycAdminController;
+use App\Http\Controllers\LandingController;
+
+use App\Http\Controllers\Admin\LandingSettingController;
+use App\Http\Controllers\Admin\LandingNavController;
+use App\Http\Controllers\Admin\LandingProgramController;
+use App\Http\Controllers\Admin\LandingFooterController;
+
+
+
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -70,6 +80,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/ekyc/{id}/verify', [EkycAdminController::class, 'verify'])->name('admin.ekyc.verify');
     });
 
+    /** LANDING PAGE CMS */
+    Route::prefix('admin/landing')->name('admin.landing.')->group(function() {
+        Route::resource('settings', LandingSettingController::class)->only(['index', 'edit', 'update']);
+        Route::resource('navigation', LandingNavController::class)->except(['show']);
+        Route::resource('programs', LandingProgramController::class)->except(['show']);
+        Route::resource('footer', LandingFooterController::class)->except(['show']);
+        Route::post('footer/reorder', [LandingFooterController::class, 'reorder'])->name('admin.landing.footer.reorder');
+        Route::patch('footer/{id}/status', [LandingFooterController::class, 'togglesStatus'])->name('admin.landing.footer.toggleStatus');
+    
+    });
 });
 
 require __DIR__.'/auth.php';
